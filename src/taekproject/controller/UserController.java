@@ -28,13 +28,12 @@ public class UserController {
 			String func = sc.next();
 			
 			if(func.equals("6")) break;
+			
 			switch (func) {
 			case "1": {
 				UserVO user = makeUser(sc);
 				UserView.print(uService.userInsert(user));
-
 				break;
-
 			}
 			case "2": {
 				System.out.print("아이디 >> ");
@@ -47,59 +46,53 @@ public class UserController {
 			}
 			case "3": {
 				UserView.print(uService.selectAllMenu());
-
 				break;
 			}
 			case "4": {
 				OrderVO order = makeOrder(sc);
 				UserView.print(uService.Order(order));
-
 				break;
 			}
+			
 			// 마이페이지
 			case "5": { // 마이페이지
 				System.out.println();
 				System.out.println("=============마이페이지=============");
-				System.out.println("1.주문내역 | 2.수정하기 | 3.삭제하기");
+				System.out.println("1.주문내역|2.개인정보수정|3.회원탈퇴");
 				System.out.println("====================================");
 				System.out.print("====작업선택>>");
 				String func1 = sc.next();
-				
-				
+							
 				switch (func1) {
 				case "1": { // 주문내역
 					List<OrderVO> orderlist = uService.SearchOrder(user.getUser_id());
-
-					UserView.printorder(orderlist);
+					if(orderlist.size()==0) {
+						System.out.println("주문내역이 존재하지 않습니다.");
+					}else {
+						UserView.printorder(orderlist);
+					}
 					break;
 				}
 				case "2": { // 수정하기
 					UserVO user = makeUpdate(sc);
 					UserView.print(uService.UserUpdate(user));
-
+					
 					break;
 				}
 				case "3": { // 삭제하기(회원탈퇴)
-
-					System.out.print("회원탈퇴하시겠습니까(Y/N)? >>");
+					System.out.print("회원탈퇴하시겠습니까(Y/N)?>>");
 					String yn = sc.next();
-					if (yn.equals("Y")) {
+					if(yn.equals("Y")){
 						UserView.print(uService.UserDelete(user));
-						break;
-					}
-
-					
+					}			
 				}
-
 				}
-				break;
-					
 			} 
 			default:
 				break;
 			}
-
 		}
+		System.out.println();
 		System.out.println("수고하셨습니다...");
 	}
 
@@ -113,20 +106,18 @@ public class UserController {
 		System.out.print("4. 전화번호 >> ");
 		String phone = sc.next();
 
-//		user.setUpdate_at(user.getUpdate_at());
-
 		UserVO user = new UserVO();
 		user.setUser_name(userID);
 		user.setPasswd(pass);
 		user.setE_mail(email);
 		user.setPhone(phone);
+		user.setUpdate_at(null);
 
 		return user;
 	} // makeUser
 
 	private static OrderVO makeOrder(Scanner sc) {
-
-		System.out.print("menu_id>");
+		System.out.print("메뉴번호>");
 		int menu_id = sc.nextInt();
 		System.out.print("수량>");
 		int quantity = sc.nextInt();
@@ -140,14 +131,13 @@ public class UserController {
 	} // makeOrder
 
 	private static UserVO makeUpdate(Scanner sc) {
-
-		System.out.print("user_name>");
+		System.out.print("1. 유저아이디 >> ");
 		String user_name = sc.next();
-		System.out.print("passwd>");
+		System.out.print("2. 패스워드 >> ");
 		String passwd = sc.next();
-		System.out.print("e_mail>");
+		System.out.print("3. 이메일 >> ");
 		String e_mail = sc.next();
-		System.out.print("phone>");
+		System.out.print("4. 전화번호 >> ");
 		String phone = sc.next();
 
 		user.setUser_name(user_name);

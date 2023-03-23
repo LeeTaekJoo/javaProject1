@@ -38,7 +38,7 @@ public class UserDAO {
 			pst.setString(3, user.getE_mail());
 			pst.setString(4, user.getPhone());
 			pst.setDate(5, user.getCreate_at());
-			pst.setDate(6, user.getUpdate_at());
+//			pst.setDate(6, user.getUpdate_at());
 
 			resultCount = pst.executeUpdate();
 		} catch (SQLException e) {
@@ -116,21 +116,9 @@ public class UserDAO {
 	public int Order(OrderVO order) {
 		String sql = """
 				insert into CoffeeOrder
-				(
-				order_code,
-				user_id,
-				menu_id,
-				order_date,
-				quantity
-				)
+				( order_code, user_id, menu_id, order_date, quantity )
 				values
-				(
-				    order_seq.nextval,
-				    ?,
-				    ?,
-				    sysdate,
-				    ?
-				)
+				( order_seq.nextval, ?, ?, sysdate, ? )
 				""";
 		conn = OracleUtil.getConnection();
 		try {
@@ -177,7 +165,6 @@ public class UserDAO {
 
 	// 수정하기
 	public int UserUpdate(UserVO user) {
-		System.out.println(user);
 		// 로그인한 내정보 수정
 		String sql = """
 				update User_t
@@ -185,7 +172,6 @@ public class UserDAO {
 				where user_id=?
 				""";
 		conn = OracleUtil.getConnection();
-
 		try {
 			pst = conn.prepareStatement(sql);
 
@@ -203,7 +189,6 @@ public class UserDAO {
 			OracleUtil.dbDisconnect(null, pst, conn);
 		}
 		return resultCount;
-
 	} // UserUpdate
 
 	// 회원탈퇴
@@ -227,7 +212,6 @@ public class UserDAO {
 		}
 
 		return resultCount;
-
 	} // UserDelete
 
 	private MenuVO makeMenu(ResultSet rs) throws SQLException {
